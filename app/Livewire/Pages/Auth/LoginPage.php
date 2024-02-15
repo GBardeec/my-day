@@ -4,11 +4,10 @@ namespace App\Livewire\Pages\Auth;
 
 use Livewire\Component;
 
-class LoginPages extends Component
+class LoginPage extends Component
 {
-
     public function render()
     {
-        return view('livewire.pages.auth.login-pages');
+        return view('livewire.pages.auth.login-page');
     }
 }
