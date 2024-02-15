@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Pages\Auth\LoginPages;
+use App\Livewire\Pages\Main\MainPages;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', MainPages::class)->name('main');
+
+Route::get('/login', LoginPages::class)->name('login');

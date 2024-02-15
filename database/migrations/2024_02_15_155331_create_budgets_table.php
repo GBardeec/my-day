@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('budgets', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->boolean('is_active');
-            $table->rememberToken();
+            $table->integer('amount');
+            $table->integer('type');
+            $table->unsignedBigInteger('budget_categories_id');
             $table->timestamps();
+
+            $table->foreign('budget_categories_id')->references('id')->on('budget_categories');
+
+            $table->index('budget_categories_id');
         });
     }
 
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('budgets');
     }
 };
