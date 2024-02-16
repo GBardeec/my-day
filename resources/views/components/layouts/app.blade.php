@@ -40,9 +40,17 @@
                     </ul>
                 </div>
 
+                @guest
                 <div class="form-inline my-2 my-lg-0">
                     <a href="{{route('login')}}" class="btn btn-outline-success my-2 my-sm-0" type="submit">Авторизация</a>
                 </div>
+                @endguest
+
+                @auth
+                    <div class="form-inline my-2 my-lg-0">
+                        <a href="{{route('logout')}}" class="btn btn-outline-success my-2 my-sm-0" type="submit">Выйти</a>
+                    </div>
+                @endauth
             </nav>
         </header>
     <main class="container">
