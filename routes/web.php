@@ -3,6 +3,7 @@
 use App\Livewire\Pages\Auth\LoginPage;
 use App\Livewire\Pages\Auth\Logout;
 use App\Livewire\Pages\Auth\RegisterPage;
+use App\Livewire\Pages\Finance\FinancePage;
 use App\Livewire\Pages\Main\MainPages;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,6 @@ Route::get('/', MainPages::class)->name('main');
 Route::get('/login', LoginPage::class)->name('login');
 Route::get('/register', RegisterPage::class)->name('register');
 Route::get('/logout', Logout::class)->name('logout');
+
+
+Route::get('/finance', FinancePage::class)->middleware('auth')->name('finance.index');

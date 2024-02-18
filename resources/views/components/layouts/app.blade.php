@@ -38,6 +38,13 @@
                             <a class="nav-link" href="{{route('main')}}">Главная страница</a>
                         </li>
                     </ul>
+                    @auth
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{route('finance.index')}}">Финансы</a>
+                        </li>
+                    </ul>
+                    @endauth
                 </div>
 
                 @guest
