@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class BudgetCategory extends Model
 {
     use HasFactory;
+    protected $fillable = ['name','type','user_id'];
 
-    protected $fillable = ['name','type'];
+    const EXPENSE = 1;
+    const INCOME = 2;
+
+
 }
