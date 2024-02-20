@@ -10,4 +10,7 @@ class Budget extends Model
     use HasFactory;
 
     protected $fillable = ['amount', 'type', 'budget_categories_id',];
+
+    const EXPENSE = 1;
+    const INCOME = 2;
 }

@@ -67,5 +67,6 @@
         <livewire:modals.modals/>
         @livewireScripts
         @vite('resources/js/app.js')
+        <script src="https://kit.fontawesome.com/f5db833686.js" crossorigin="anonymous"></script>
     </body>
 </html>

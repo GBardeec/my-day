@@ -15,8 +15,20 @@
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Расходы</div>
                     <div class="card-body text-dark">
-                        <h5 class="card-title">18 февраля 2024:</h5>
-                        <p class="card-text">1. Обед - 350 руб.</p>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{Carbon\Carbon::parse($dateForExpense)->format('d.m.Y')}}</h5>
+                            <input type="date" value="{{$dateForExpense}}" wire:change="getBudget($event.target.value, 'expense')">
+                        </div>
+                        <p class="card-text">
+                            @php
+                                $z = 0;
+                            @endphp
+                            @forelse($this->budgetIncome as $budget)
+                                {{$budget->id}}
+                            @empty
+                                Данные отсутствуют
+                            @endforelse
+                        </p>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
                         <a class="btn btn-outline-success btn-sm"
@@ -30,9 +42,19 @@
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Доходы</div>
                     <div class="card-body text-dark">
-                        <h5 class="card-title">18 февраля 2024:</h5>
+                        <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{Carbon\Carbon::parse($dateForIncome)->format('d.m.Y')}}</h5>
+                            <input type="date" value="{{$dateForIncome}}" wire:change="getBudget($event.target.value, 'income')">
+                        </div>
                         <p class="card-text">
-                            1. Основная зарплата - 10 000 руб.
+                            @php
+                            $i = 0;
+                            @endphp
+                            @forelse($this->budgetIncome as $budget)
+                                {{$budget->id}}
+                            @empty
+                                Данные отсутствуют
+                            @endforelse
                         </p>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
