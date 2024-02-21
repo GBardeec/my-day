@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Pages\Finance;
 
+use App\Models\Budget;
+use App\Models\BudgetCategory;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
@@ -10,7 +12,10 @@ class ModalAddFinance extends Component
 {
     public string $type;
     public string $date;
-    public string $sum;
+    public string $amount;
+    public  $selectedCategory;
+
+    public $categories;
 
     public function mount(string $type): void
     {
@@ -18,8 +23,15 @@ class ModalAddFinance extends Component
             abort(404, 'Не известный тип финансов');
         }
 
-        $this->type = $type;
+        $this->type = $type === 'expense' ? BudgetCategory::EXPENSE : BudgetCategory::INCOME;
         $this->date = Carbon::now()->format('Y-m-d');
+        $this->categories = BudgetCategory::query()
+            ->where('user_id', auth()->user()->id)
+            ->where('type', $this->type)
+            ->pluck('name', 'id');
+
+        $this->selectedCategory =  $this->categories->keys()->first();
+
     }
 
     public function render(): View
@@ -27,8 +39,22 @@ class ModalAddFinance extends Component
         return view('livewire.pages.finance.modal-add-finance');
     }
 
-    public function getCategories()
+    public function create(): void
     {
+        $budget = Budget::create([
+            'amount' => $this->amount,
+            'date_at' => $this->date,
+            'type' => $this->type,
+            'user_id' => auth()->user()->id,
+            'budget_categories_id' => $this->selectedCategory
+        ]);
 
+        if ($budget) {
+            $this->dispatch('hideModal');
+            $this->dispatch('finance-edited');
+            return;
+        }
+
+        abort(422, 'Произошла ошибка при сохранении');
     }
 }

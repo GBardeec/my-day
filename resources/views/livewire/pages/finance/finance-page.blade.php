@@ -17,18 +17,23 @@
                     <div class="card-body text-dark">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">{{Carbon\Carbon::parse($dateForExpense)->format('d.m.Y')}}</h5>
-                            <input type="date" value="{{$dateForExpense}}" wire:change="getBudget($event.target.value, 'expense')">
+                            <input type="date" value="{{$dateForExpense}}"
+                                   wire:change="getBudgetExpense($event.target.value)">
                         </div>
-                        <p class="card-text">
+                        <div class="card-text mt-1">
                             @php
-                                $z = 0;
+                                $z = 1;
                             @endphp
-                            @forelse($this->budgetIncome as $budget)
-                                {{$budget->id}}
+                            @forelse($this->budgetExpense as $budget)
+                                <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.'}}</p>
+
+                                @php
+                                $z++
+                                @endphp
                             @empty
                                 Данные отсутствуют
                             @endforelse
-                        </p>
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
                         <a class="btn btn-outline-success btn-sm"
@@ -44,18 +49,23 @@
                     <div class="card-body text-dark">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">{{Carbon\Carbon::parse($dateForIncome)->format('d.m.Y')}}</h5>
-                            <input type="date" value="{{$dateForIncome}}" wire:change="getBudget($event.target.value, 'income')">
+                            <input type="date" value="{{$dateForIncome}}"
+                                   wire:change="getBudgetIncome($event.target.value)">
                         </div>
-                        <p class="card-text">
+                        <div class="card-text">
                             @php
-                            $i = 0;
+                                $z = 1;
                             @endphp
                             @forelse($this->budgetIncome as $budget)
-                                {{$budget->id}}
+                                <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.' }}</p>
+
+                                @php
+                                    $z++
+                                @endphp
                             @empty
                                 Данные отсутствуют
                             @endforelse
-                        </p>
+                        </div>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
                         <a class="btn btn-outline-success btn-sm"

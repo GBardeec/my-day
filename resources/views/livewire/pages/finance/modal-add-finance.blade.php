@@ -2,18 +2,18 @@
     <p>
         <strong>Добавить {{$type === 'expense' ? 'расходы' : 'доходы'}}</strong>
     </p>
-    <form >
+    <form wire:submit="create">
         <div class="row">
             <div class="form-group m-0">
                 <x-inputs.basic-input wire:model="date" type="date" text="Дата"/>
             </div>
 
             <div class="form-group m-0">
-                <x-inputs.basic-input wire:model="sum" type="text" text="Категория"/>
+                <x-inputs.select text="Тип" wire:model="selectedCategory" :options="$this->categories" required/>
             </div>
 
             <div class="form-group m-0">
-                <x-inputs.basic-input wire:model="sum" type="text" text="Cумма"/>
+                <x-inputs.basic-input wire:model="amount" type="text" text="Значение"/>
             </div>
 
 
