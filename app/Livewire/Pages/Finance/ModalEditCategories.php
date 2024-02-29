@@ -36,8 +36,6 @@ class ModalEditCategories extends Component
             $category->save();
 
             $this->js("alert('Данные успешно изменены')");
-            $this->dispatch('hideModal');
-            $this->dispatch('finance-edited');
         } catch (\Exception $e) {
             $this->js("alert('Ошибка при сохранении')");
         }
@@ -50,8 +48,6 @@ class ModalEditCategories extends Component
             $category->delete();
 
             $this->js("alert('Категория успешно удалена')");
-            $this->dispatch('hideModal');
-            $this->dispatch('finance-edited');
         } catch (\Exception $e) {
             $this->js("alert('Ошибка при удалении')");
         }

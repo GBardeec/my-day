@@ -26,16 +26,24 @@
                         <div class="card-text mt-1">
                             @php
                                 $z = 1;
+                                $arrayForSumExpenses = [];
                             @endphp
                             @forelse($this->getBudgetExpense as $budget)
                                 <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.'}}</p>
 
                                 @php
-                                $z++
+                                    $z++;
+                                    $arrayForSumExpenses[] = $budget->amount;
                                 @endphp
                             @empty
                                 Данные отсутствуют
                             @endforelse
+
+                            @if($arrayForSumExpenses)
+                                <strong class="mt-3">
+                                    Итог: {{array_sum($arrayForSumExpenses)}}
+                                </strong>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
@@ -57,16 +65,24 @@
                         <div class="card-text">
                             @php
                                 $z = 1;
+                                $arrayForSumIncomes = [];
                             @endphp
                             @forelse($this->getBudgetIncome as $budget)
                                 <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.' }}</p>
 
                                 @php
-                                    $z++
+                                    $z++;
+                                    $arrayForSumIncomes[] = $budget->amount;
                                 @endphp
                             @empty
                                 Данные отсутствуют
                             @endforelse
+
+                            @if($arrayForSumIncomes)
+                                <strong class="mt-2">
+                                    Итог: {{array_sum($arrayForSumIncomes)}}
+                                </strong>
+                            @endif
                         </div>
                     </div>
                     <div class="card-footer bg-transparent border-dark">
