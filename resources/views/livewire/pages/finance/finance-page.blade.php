@@ -3,11 +3,15 @@
         МоиФинансы
     </h3>
 
-    <div class="col-12">
-        <div class="col-12 mb-3">
-            <a class="btn btn-outline-success col-12"
-               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-add-categories', 'params': {type: 'expense'}}})">
-                Добавить категорию
+    <div class="col-lg-12">
+        <div class="row mb-3">
+            <a class="btn btn-outline-success col-6"
+               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-add-categories'}})">
+                Добавить свою категорию
+            </a>
+            <a class="btn btn-outline-success col-6"
+               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
+                Изменить свои категории
             </a>
         </div>
         <div class="row">
@@ -17,14 +21,13 @@
                     <div class="card-body text-dark">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">{{Carbon\Carbon::parse($dateForExpense)->format('d.m.Y')}}</h5>
-                            <input type="date" value="{{$dateForExpense}}"
-                                   wire:change="getBudgetExpense($event.target.value)">
+                            <input type="date" wire:model.live="dateForExpense">
                         </div>
                         <div class="card-text mt-1">
                             @php
                                 $z = 1;
                             @endphp
-                            @forelse($this->budgetExpense as $budget)
+                            @forelse($this->getBudgetExpense as $budget)
                                 <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.'}}</p>
 
                                 @php
@@ -49,14 +52,13 @@
                     <div class="card-body text-dark">
                         <div class="d-flex justify-content-between">
                             <h5 class="card-title">{{Carbon\Carbon::parse($dateForIncome)->format('d.m.Y')}}</h5>
-                            <input type="date" value="{{$dateForIncome}}"
-                                   wire:change="getBudgetIncome($event.target.value)">
+                            <input type="date" wire:model.live="dateForIncome">
                         </div>
                         <div class="card-text">
                             @php
                                 $z = 1;
                             @endphp
-                            @forelse($this->budgetIncome as $budget)
+                            @forelse($this->getBudgetIncome as $budget)
                                 <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.' }}</p>
 
                                 @php

@@ -11,7 +11,7 @@ use Livewire\Component;
 class ModalAddCategories extends Component
 {
     public string $name;
-    public string $type;
+    public string $type = 'expense';
 
     public function render(): View
     {
@@ -27,7 +27,7 @@ class ModalAddCategories extends Component
         ];
     }
 
-    public function create()
+    public function create(): void
     {
         $budgetCategory = BudgetCategory::create([
             'name' => $this->name,

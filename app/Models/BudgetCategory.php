@@ -13,5 +13,5 @@ class BudgetCategory extends Model
     const EXPENSE = 1;
     const INCOME = 2;
 
-
+    const DEFAULT_CATEGORIES_FROM_ADMIN_ID = 5;
 }

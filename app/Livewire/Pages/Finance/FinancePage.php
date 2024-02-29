@@ -5,6 +5,8 @@ namespace App\Livewire\Pages\Finance;
 use App\Models\Budget;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -12,16 +14,11 @@ class FinancePage extends Component
 {
     public string $dateForExpense;
     public string $dateForIncome;
-    public $budgetExpense;
-    public $budgetIncome;
 
     public function mount(): void
     {
         $this->dateForExpense = Carbon::now()->format('Y-m-d');
         $this->dateForIncome = Carbon::now()->format('Y-m-d');
-
-        $this->getBudgetExpense();
-        $this->getBudgetIncome();
     }
 
     public function render(): View
@@ -29,30 +26,24 @@ class FinancePage extends Component
         return view('livewire.pages.finance.finance-page');
     }
 
-    public function getBudgetExpense(string $date = null): void
+    #[Computed]
+    public function getBudgetExpense(): Collection
     {
-        if ($date === null) {
-            $date = Carbon::now();
-        }
-
-        $this->budgetExpense = Budget::query()
+        return Budget::query()
             ->where('user_id', auth()->user()->id)
             ->where('type', Budget::EXPENSE)
-            ->whereDate('created_at', $date)
+            ->whereDate('created_at', $this->dateForExpense)
             ->with('budgetCategory')
             ->get();
     }
 
-    public function getBudgetIncome(string $date = null): void
+    #[Computed]
+    public function getBudgetIncome(): Collection
     {
-        if ($date === null) {
-            $date = Carbon::now();
-        }
-
-        $this->budgetIncome = Budget::query()
+        return Budget::query()
             ->where('user_id', auth()->user()->id)
             ->where('type', Budget::INCOME)
-            ->whereDate('created_at', $date)
+            ->whereDate('created_at', $this->dateForIncome)
             ->get();
     }
 
