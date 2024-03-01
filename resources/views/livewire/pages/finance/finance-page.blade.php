@@ -3,19 +3,19 @@
         МоиФинансы
     </h3>
 
-    <div class="col-lg-12">
+    <div class="col-12 col-lg-12 overflow-hidden">
         <div class="row mb-3">
-            <a class="btn btn-outline-success col-6"
-               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-add-categories'}})">
-                Добавить свою категорию
-            </a>
-            <a class="btn btn-outline-success col-6"
+            <a class="btn btn-outline-success col"
                wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
-                Изменить свои категории
+                Настроить категории
+            </a>
+            <a class="btn btn-outline-success col"
+               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
+                Настроить категории
             </a>
         </div>
         <div class="row">
-            <div class=" col-6 col-lg-6">
+            <div class=" col-12 col-lg-6 ps-lg-0">
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Расходы</div>
                     <div class="card-body text-dark">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-lg-6">
+            <div class="col-12 col-lg-6 p-lg-0">
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Доходы</div>
                     <div class="card-body text-dark">
