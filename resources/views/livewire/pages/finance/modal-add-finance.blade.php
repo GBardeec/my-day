@@ -12,7 +12,7 @@
         </div>
 
         <div class="form-group m-0">
-            <x-inputs.basic-input wire:model="amount" type="text" text="Значение"/>
+            <x-inputs.basic-input wire:model="amount" type="number" text="Значение"/>
         </div>
     </div>
     <div class="modal-footer">

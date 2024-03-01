@@ -26,26 +26,52 @@ class ModalEditCategories extends Component
         return view('livewire.pages.finance.modal-edit-categories');
     }
 
-    public function update($id): void
+    public function create(int $type): void
+    {
+        $id = 'new' . rand(1, 1000);
+
+        $this->categories[$id] = [
+            'id' => $id,
+            'name' => null,
+            'type' => $type,
+            'user_id' => auth()->user()->id,
+        ];
+    }
+
+    public function update($id)
     {
         $changedCategory = collect($this->categories)->where('id', $id)->first();
 
         try {
-            $category = BudgetCategory::find($id);
-            $category->name = $changedCategory['name'];
-            $category->save();
+            if (!preg_match('/new/i', $changedCategory['id'])) {
+                $category = BudgetCategory::find($id);
+                $category->name = $changedCategory['name'];
+                $category->save();
+            } else {
+                $category = new BudgetCategory();
+                $category->name = $changedCategory['name'];
+                $category->type = $changedCategory['type'];
+                $category->user_id = $changedCategory['user_id'];
 
+                $category->save();
+            }
+
+            $this->dispatch('finance-edited');
             $this->js("alert('Данные успешно изменены')");
         } catch (\Exception $e) {
             $this->js("alert('Ошибка при сохранении')");
         }
     }
 
-    public function delete($id): void
+    public function delete(?string $id): void
     {
         try {
-            $category = BudgetCategory::find($id);
-            $category->delete();
+            if (!preg_match('/new/i', $this->categories[$id]['id'])) {
+                $category = BudgetCategory::find($id);
+                $category->delete();
+            }
+
+            $this->categories[$id] = null;
 
             $this->js("alert('Категория успешно удалена')");
         } catch (\Exception $e) {
