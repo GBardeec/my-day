@@ -12,6 +12,10 @@ use Livewire\Component;
 
 class FinancePage extends Component
 {
+    public bool $budgetForDay = true;
+    public bool $budgetPlanning = false;
+    public bool $totalBudget = false;
+
     public string $dateForExpense;
     public string $dateForIncome;
 

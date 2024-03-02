@@ -4,18 +4,30 @@
     </h3>
 
     <div class="col-12 col-lg-12 overflow-hidden">
-        <div class="row mb-3">
-            <a class="btn btn-outline-success col"
-               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
-                Настроить категории
-            </a>
-            <a class="btn btn-outline-success col"
-               wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
-                Настроить категории
-            </a>
-        </div>
         <div class="row">
-            <div class=" col-12 col-lg-6 ps-lg-0">
+            <div class="col-xs-12 col-sm-12 col-md-12 mb-3">
+                <a class="btn btn-outline-secondary w-100"
+                   wire:click="$dispatch('showModal', {data: {'alias' : 'pages.finance.modal-edit-categories', 'params': {type: 'expense'}}})">
+                    <i class="fa-solid fa-gear" style="color: #000000;"></i>
+                    Настроить категории
+                </a>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-xs-12 col-sm-4 col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-success w-100 btn-sm">Финансы за день</button>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-success w-100 btn-sm">Планирование</button>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4 mb-3">
+                <button type="button" class="btn btn-outline-success w-100 btn-sm">Общий бюджет</button>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-xs-12 col-md-6 col-sm-12">
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Расходы</div>
                     <div class="card-body text-dark">
@@ -54,7 +66,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-6 p-lg-0">
+            <div class="col-lg-6 col-xs-12 col-md-6 col-sm-12">
                 <div class="card border-dark mb-3">
                     <div class="card-header bg-transparent border-dark">Доходы</div>
                     <div class="card-body text-dark">
