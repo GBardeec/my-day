@@ -11,14 +11,13 @@ class Budget extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount', 'type', 'budget_category_id','date_at', 'user_id'];
-    public $casts = ['date_at' => 'datetime'];
+    protected $fillable = ['values', 'type','date_at', 'user_id'];
+
+    public $casts = [
+        'values' => 'json',
+        'date_at' => 'datetime'
+    ];
 
     const EXPENSE = 1;
     const INCOME = 2;
-
-    public function budgetCategory()
-    {
-        return $this->belongsTo(BudgetCategory::class, 'budget_category_id');
-    }
 }
