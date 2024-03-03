@@ -14,7 +14,6 @@ class ModalAddFinance extends Component
     public string $date;
     public string $amount;
     public $selectedCategory;
-
     public $categories;
 
     public function mount(string $type): void
@@ -25,6 +24,7 @@ class ModalAddFinance extends Component
 
         $this->type = $type === 'expense' ? BudgetCategory::EXPENSE : BudgetCategory::INCOME;
         $this->date = Carbon::now()->format('Y-m-d');
+
         $this->categories = BudgetCategory::query()
             ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
             ->where('type', $this->type)

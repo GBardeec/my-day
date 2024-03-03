@@ -4,15 +4,15 @@
     </div>
     <div class="modal-body">
         <div class="form-group m-0">
-            <x-inputs.basic-input wire:model="date" type="date" text="Дата"/>
+            <x-inputs.basic-input wire:model="date" type="date" text="Дата" required/>
+        </div>
+
+        <div class="form-group m-0">
+            <x-inputs.basic-input wire:model="amount" type="number" text="Значение" required/>
         </div>
 
         <div class="form-group m-0">
             <x-inputs.select text="Тип" wire:model="selectedCategory" :options="$this->categories" required/>
-        </div>
-
-        <div class="form-group m-0">
-            <x-inputs.basic-input wire:model="amount" type="number" text="Значение"/>
         </div>
     </div>
     <div class="modal-footer">

@@ -9,9 +9,10 @@ class BudgetPlan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['amount', 'type', 'budget_category_id','started_at','ended_at', 'user_id'];
+    protected $fillable = ['plans', 'type', 'started_at','ended_at', 'user_id'];
 
     public $casts = [
+        'plans' => 'json',
         'started_at' => 'datetime',
         'ended_at' => 'datetime',
     ];
