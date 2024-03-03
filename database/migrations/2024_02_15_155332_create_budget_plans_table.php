@@ -16,8 +16,8 @@ return new class extends Migration
             $table->integer('amount');
             $table->integer('type');
             $table->unsignedBigInteger('budget_category_id');
-            $table->timestamp('date_at');
-            $table->timestamp('end_at');
+            $table->timestamp('started_at');
+            $table->timestamp('ended_at');
             $table->timestamps();
 
             $table->foreign('budget_category_id')->references('id')->on('budget_categories');

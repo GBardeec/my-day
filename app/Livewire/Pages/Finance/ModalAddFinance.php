@@ -45,7 +45,7 @@ class ModalAddFinance extends Component
             'date_at' => $this->date,
             'type' => $this->type,
             'user_id' => auth()->user()->id,
-            'budget_categories_id' => $this->selectedCategory
+            'budget_category_id' => $this->selectedCategory
         ]);
 
         if ($budget) {

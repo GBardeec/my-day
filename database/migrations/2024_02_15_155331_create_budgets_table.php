@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->integer('amount');
             $table->integer('type');
-            $table->unsignedBigInteger('budget_categories_id');
+            $table->unsignedBigInteger('budget_category_id');
             $table->timestamps();
 
-            $table->foreign('budget_categories_id')->references('id')->on('budget_categories');
+            $table->foreign('budget_category_id')->references('id')->on('budget_categories');
 
-            $table->index('budget_categories_id');
+            $table->index('budget_category_id');
         });
     }
 
