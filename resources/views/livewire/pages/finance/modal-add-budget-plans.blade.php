@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title">Добавить планы на {{ $type === 'expense' ? 'расходы' : 'доходы' }}</h5>
+        <h5 class="modal-title">Добавить планы на {{ $this->type == \App\Models\BudgetCategory::EXPENSE ? 'расходы' : 'доходы' }}</h5>
     </div>
     <div class="modal-body">
         <div class="form-group m-0">
