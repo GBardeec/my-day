@@ -16,21 +16,13 @@ class FinancePage extends Component
     public bool $budgetPlanning = false;
     public bool $totalBudget = false;
 
-    public string $dateForExpense;
-    public string $dateForIncome;
-
-    public function mount(): void
-    {
-        $this->dateForExpense = Carbon::now()->format('Y-m-d');
-        $this->dateForIncome = Carbon::now()->format('Y-m-d');
-    }
 
     public function render(): View
     {
         return view('livewire.pages.finance.finance-page');
     }
 
-    public function setActiveVariable($variable)
+    public function setActiveVariable($variable): void
     {
         if ($variable === 'budgetForDay') {
             $this->budgetForDay = true;
@@ -45,27 +37,6 @@ class FinancePage extends Component
             $this->budgetPlanning = false;
             $this->totalBudget = true;
         }
-    }
-
-    #[Computed]
-    public function getBudgetExpense(): Collection
-    {
-        return Budget::query()
-            ->where('user_id', auth()->user()->id)
-            ->where('type', Budget::EXPENSE)
-            ->whereDate('created_at', $this->dateForExpense)
-            ->with('budgetCategory')
-            ->get();
-    }
-
-    #[Computed]
-    public function getBudgetIncome(): Collection
-    {
-        return Budget::query()
-            ->where('user_id', auth()->user()->id)
-            ->where('type', Budget::INCOME)
-            ->whereDate('created_at', $this->dateForIncome)
-            ->get();
     }
 
     #[On('finance-edited')]
