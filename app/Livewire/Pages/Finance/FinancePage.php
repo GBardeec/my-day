@@ -30,6 +30,23 @@ class FinancePage extends Component
         return view('livewire.pages.finance.finance-page');
     }
 
+    public function setActiveVariable($variable)
+    {
+        if ($variable === 'budgetForDay') {
+            $this->budgetForDay = true;
+            $this->budgetPlanning = false;
+            $this->totalBudget = false;
+        } elseif ($variable === 'budgetPlanning') {
+            $this->budgetForDay = false;
+            $this->budgetPlanning = true;
+            $this->totalBudget = false;
+        } elseif ($variable === 'totalBudget') {
+            $this->budgetForDay = false;
+            $this->budgetPlanning = false;
+            $this->totalBudget = true;
+        }
+    }
+
     #[Computed]
     public function getBudgetExpense(): Collection
     {
