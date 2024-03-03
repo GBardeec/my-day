@@ -61,6 +61,13 @@ class ModalAddBudgetPlans extends Component
             return;
         }
 
+        $this->plans = array_map(function ($plan) {
+            return [
+                'amount' => (int)$plan['amount'],
+                'budget_category_id' => (int)$plan['budget_category_id']
+            ];
+        }, $this->plans);
+
         $budget = BudgetPlan::create([
             'plans' => $this->plans,
             'type' => $this->type,
