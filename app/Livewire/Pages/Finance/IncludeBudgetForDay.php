@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Finance;
 
 use App\Models\Budget;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -19,7 +20,7 @@ class IncludeBudgetForDay extends Component
         $this->dateForIncome = Carbon::now()->format('Y-m-d');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.finance.include-budget-for-day');
     }

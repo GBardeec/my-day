@@ -35,7 +35,7 @@
         @if($budgetForDay)
             <livewire:pages.finance.include-budget-for-day />
         @elseif($budgetPlanning)
-            Для плана
+            <livewire:pages.finance.include-budget-planning />
         @elseif($totalBudget)
             Для полного бюджета
         @endif
