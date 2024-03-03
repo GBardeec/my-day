@@ -13,11 +13,11 @@
                         $arrayForSumExpenses = [];
                     @endphp
                     @forelse($this->getBudgetExpense as $budget)
-                        <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.'}}</p>
+                        <p class="m-0">{{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}</p>
 
                         @php
                             $z++;
-                            $arrayForSumExpenses[] = $budget->amount;
+                            $arrayForSumExpenses[] = $budget['amount'];
                         @endphp
                     @empty
                         Данные отсутствуют
@@ -52,11 +52,11 @@
                         $arrayForSumIncomes = [];
                     @endphp
                     @forelse($this->getBudgetIncome as $budget)
-                        <p class="m-0">{{$z . '. ' . $budget->budgetCategory->name . ' - ' . $budget->amount . ' руб.' }}</p>
+                        <p class="m-0">{{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}</p>
 
                         @php
                             $z++;
-                            $arrayForSumIncomes[] = $budget->amount;
+                            $arrayForSumIncomes[] = $budget['amount'];
                         @endphp
                     @empty
                         Данные отсутствуют

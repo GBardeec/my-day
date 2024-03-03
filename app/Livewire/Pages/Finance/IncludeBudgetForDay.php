@@ -3,6 +3,7 @@
 namespace App\Livewire\Pages\Finance;
 
 use App\Models\Budget;
+use App\Models\BudgetCategory;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,23 +27,42 @@ class IncludeBudgetForDay extends Component
     }
 
     #[Computed]
-    public function getBudgetExpense(): Collection
+    public function getBudgetExpense()
     {
-        return Budget::query()
+        $expenses = Budget::query()
             ->where('user_id', auth()->user()->id)
             ->where('type', Budget::EXPENSE)
-            ->whereDate('created_at', $this->dateForExpense)
-            ->with('budgetCategory')
-            ->get();
+            ->whereDate('date_at', $this->dateForExpense)
+            ->value('values');
+
+        return collect($expenses)->transform(function ($expense) {
+            $expense['budget_category'] = BudgetCategory::query()
+                ->where('id', $expense['budget_category_id'])
+                ->value('name');
+
+            unset($expense['budget_category_id']);
+
+            return $expense;
+        });
     }
 
     #[Computed]
-    public function getBudgetIncome(): Collection
+    public function getBudgetIncome()
     {
-        return Budget::query()
+        $expenses = Budget::query()
             ->where('user_id', auth()->user()->id)
             ->where('type', Budget::INCOME)
-            ->whereDate('created_at', $this->dateForIncome)
-            ->get();
+            ->whereDate('date_at', $this->dateForIncome)
+            ->value('values');
+
+        return collect($expenses)->transform(function ($expense) {
+            $expense['budget_category'] = BudgetCategory::query()
+                ->where('id', $expense['budget_category_id'])
+                ->value('name');
+
+            unset($expense['budget_category_id']);
+
+            return $expense;
+        });
     }
 }

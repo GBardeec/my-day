@@ -6,15 +6,16 @@ use App\Models\Budget;
 use App\Models\BudgetCategory;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 class ModalAddFinance extends Component
 {
     public string $type;
     public string $date;
-    public string $amount;
-    public $selectedCategory;
-    public $categories;
+    public array $values;
+
 
     public function mount(string $type): void
     {
@@ -24,13 +25,12 @@ class ModalAddFinance extends Component
 
         $this->type = $type === 'expense' ? BudgetCategory::EXPENSE : BudgetCategory::INCOME;
         $this->date = Carbon::now()->format('Y-m-d');
-
-        $this->categories = BudgetCategory::query()
-            ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
-            ->where('type', $this->type)
-            ->pluck('name', 'id');
-
-        $this->selectedCategory =  $this->categories->keys()->first();
+        $this->values = [
+            [
+                'amount' => null,
+                'budget_category_id' => null,
+            ]
+        ];
     }
 
     public function render(): View
@@ -38,14 +38,40 @@ class ModalAddFinance extends Component
         return view('livewire.pages.finance.modal-add-finance');
     }
 
+    #[Computed]
+    public function getCategories(): Collection
+    {
+        return BudgetCategory::query()
+            ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
+            ->where('type', $this->type)
+            ->pluck('name', 'id')
+            ->prepend('Выберите категорию', null);
+    }
+
+    public function add(): void
+    {
+        $this->values[] = ['amount' => null, 'budget_category_id' => null];
+    }
+
     public function create(): void
     {
+        if (in_array(null, array_column($this->values, 'amount')) || in_array(null, array_column($this->values, 'budget_category_id'))) {
+            $this->js("alert('Ошибка. Не до конца заполнены данные')");
+            return;
+        }
+
+        $this->values = array_map(function ($plan) {
+            return [
+                'amount' => (int)$plan['amount'],
+                'budget_category_id' => (int)$plan['budget_category_id']
+            ];
+        }, $this->values);
+
         $budget = Budget::create([
-            'amount' => $this->amount,
+            'values' => $this->values,
             'date_at' => $this->date,
             'type' => $this->type,
             'user_id' => auth()->user()->id,
-            'budget_category_id' => $this->selectedCategory
         ]);
 
         if ($budget) {
