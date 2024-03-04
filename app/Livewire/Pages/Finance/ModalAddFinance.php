@@ -28,7 +28,7 @@ class ModalAddFinance extends Component
         $this->values = [
             [
                 'amount' => null,
-                'budget_category_id' => null,
+                'budget_category' => null,
             ]
         ];
     }
@@ -44,18 +44,18 @@ class ModalAddFinance extends Component
         return BudgetCategory::query()
             ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
             ->where('type', $this->type)
-            ->pluck('name', 'id')
+            ->pluck('name', 'name')
             ->prepend('Выберите категорию', null);
     }
 
     public function add(): void
     {
-        $this->values[] = ['amount' => null, 'budget_category_id' => null];
+        $this->values[] = ['amount' => null, 'budget_category' => null];
     }
 
     public function create(): void
     {
-        if (in_array(null, array_column($this->values, 'amount')) || in_array(null, array_column($this->values, 'budget_category_id'))) {
+        if (in_array(null, array_column($this->values, 'amount')) || in_array(null, array_column($this->values, 'budget_category'))) {
             $this->js("alert('Ошибка. Не до конца заполнены данные')");
             return;
         }
@@ -63,16 +63,28 @@ class ModalAddFinance extends Component
         $this->values = array_map(function ($plan) {
             return [
                 'amount' => (int)$plan['amount'],
-                'budget_category_id' => (int)$plan['budget_category_id']
+                'budget_category' => $plan['budget_category']
             ];
         }, $this->values);
 
-        $budget = Budget::create([
-            'values' => $this->values,
-            'date_at' => $this->date,
-            'type' => $this->type,
-            'user_id' => auth()->user()->id,
-        ]);
+        $checkBudget = Budget::query()
+            ->where('type', $this->type)
+            ->where('user_id', auth()->user()->id)
+            ->where('date_at', $this->date)
+            ->first();
+
+        if ($checkBudget) {
+            $checkBudget->values = array_merge($checkBudget->values, $this->values);
+
+            $budget = $checkBudget->save();
+        } else {
+            $budget = Budget::create([
+                'values' => $this->values,
+                'date_at' => $this->date,
+                'type' => $this->type,
+                'user_id' => auth()->user()->id,
+            ]);
+        }
 
         if ($budget) {
             $this->dispatch('hideModal');

@@ -12,8 +12,15 @@
                         $z = 1;
                         $arrayForSumExpenses = [];
                     @endphp
-                    @forelse($this->getBudgetExpense as $budget)
-                        <p class="m-0">{{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}</p>
+                    @forelse($this->getBudgetExpense()->values ?? [] as $budget)
+                        <div class="d-flex justify-content-between border-bottom">
+                            <span class="m-0">
+                                {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
+                            </span>
+                            <span wire>
+                                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                            </span>
+                        </div>
 
                         @php
                             $z++;
@@ -24,9 +31,9 @@
                     @endforelse
 
                     @if($arrayForSumExpenses)
-                        <strong class="mt-3">
-                            Итог: {{ array_sum($arrayForSumExpenses) }} руб.
-                        </strong>
+                        <div class="mt-3">
+                            Итог: <strong> {{ array_sum($arrayForSumExpenses) }} </strong> руб.
+                        </div>
                     @endif
                 </div>
             </div>
@@ -51,9 +58,15 @@
                         $z = 1;
                         $arrayForSumIncomes = [];
                     @endphp
-                    @forelse($this->getBudgetIncome as $budget)
-                        <p class="m-0">{{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}</p>
-
+                    @forelse($this->getBudgetIncome()->values ?? [] as $key => $budget)
+                        <div class="d-flex justify-content-between border-bottom">
+                            <span class="m-0">
+                                {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
+                            </span>
+                            <span>
+                                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                            </span>
+                        </div>
                         @php
                             $z++;
                             $arrayForSumIncomes[] = $budget['amount'];
@@ -63,9 +76,9 @@
                     @endforelse
 
                     @if($arrayForSumIncomes)
-                        <strong class="mt-2">
-                            Итог: {{ array_sum($arrayForSumIncomes) }}  руб.
-                        </strong>
+                        <div class="mt-2">
+                            Итог: <strong> {{ array_sum($arrayForSumIncomes) }} </strong> руб.
+                        </div>
                     @endif
                 </div>
             </div>

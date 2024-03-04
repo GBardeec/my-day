@@ -7,7 +7,10 @@ use App\Models\BudgetCategory;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class IncludeBudgetForDay extends Component
@@ -26,43 +29,34 @@ class IncludeBudgetForDay extends Component
         return view('livewire.pages.finance.include-budget-for-day');
     }
 
-    #[Computed]
-    public function getBudgetExpense()
+    public function getBudgetData(int $type, string $dateForBudget): Builder|Model|null
     {
-        $expenses = Budget::query()
+        return Budget::query()
             ->where('user_id', auth()->user()->id)
-            ->where('type', Budget::EXPENSE)
-            ->whereDate('date_at', $this->dateForExpense)
-            ->value('values');
-
-        return collect($expenses)->transform(function ($expense) {
-            $expense['budget_category'] = BudgetCategory::query()
-                ->where('id', $expense['budget_category_id'])
-                ->value('name');
-
-            unset($expense['budget_category_id']);
-
-            return $expense;
-        });
+            ->where('type', $type)
+            ->whereDate('date_at', $dateForBudget)
+            ->first();
     }
 
-    #[Computed]
-    public function getBudgetIncome()
+    public function getBudgetExpense(): Model|Builder|null
     {
-        $expenses = Budget::query()
-            ->where('user_id', auth()->user()->id)
-            ->where('type', Budget::INCOME)
-            ->whereDate('date_at', $this->dateForIncome)
-            ->value('values');
-
-        return collect($expenses)->transform(function ($expense) {
-            $expense['budget_category'] = BudgetCategory::query()
-                ->where('id', $expense['budget_category_id'])
-                ->value('name');
-
-            unset($expense['budget_category_id']);
-
-            return $expense;
-        });
+        return $this->getBudgetData(Budget::EXPENSE, $this->dateForExpense);
     }
+
+    public function getBudgetIncome(): Model|Builder|null
+    {
+        return $this->getBudgetData(Budget::INCOME, $this->dateForIncome);
+    }
+
+    public function delete()
+    {
+
+    }
+
+    #[On('finance-edited')]
+    public function financeEdited()
+    {
+        //
+    }
+
 }

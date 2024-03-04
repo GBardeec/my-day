@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="col-md-6 form-group m-0">
-                    <x-inputs.select text="Категория" wire:model="values.{{ $key }}.budget_category_id" :options="$this->getCategories" required/>
+                    <x-inputs.select text="Категория" wire:model="values.{{ $key }}.budget_category" :options="$this->getCategories" required/>
                 </div>
             </div>
         @endforeach
