@@ -29,28 +29,59 @@ class IncludeBudgetForDay extends Component
         return view('livewire.pages.finance.include-budget-for-day');
     }
 
-    public function getBudgetData(int $type, string $dateForBudget): Builder|Model|null
+    public function getBudgetData(int $type, string $dateForBudget): Builder|Model|array
     {
-        return Budget::query()
+        $categories = BudgetCategory::query()
+            ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
+            ->where("type", $type)
+            ->pluck('name', 'id')
+            ->toArray();
+
+        $budgetsValues = Budget::query()
             ->where('user_id', auth()->user()->id)
             ->where('type', $type)
             ->whereDate('date_at', $dateForBudget)
             ->first();
+
+        if (!$budgetsValues) {
+            return [];
+        }
+
+        $newValues = [];
+
+        foreach ($budgetsValues->values as $key => $value) {
+            $modifyArray = [
+                'amount' => $value['amount'],
+                'budget_category' => $categories[$value['budget_category_id']],
+            ];
+
+            $newValues[$key] = $modifyArray;
+        }
+
+        $budgetsValues->values = $newValues;
+
+        return $budgetsValues;
     }
 
-    public function getBudgetExpense(): Model|Builder|null
+    public function getBudgetExpense(): Builder|Model|array
     {
         return $this->getBudgetData(Budget::EXPENSE, $this->dateForExpense);
     }
 
-    public function getBudgetIncome(): Model|Builder|null
+    public function getBudgetIncome(): Builder|Model|array
     {
         return $this->getBudgetData(Budget::INCOME, $this->dateForIncome);
     }
 
-    public function delete()
+    public function delete(int $budgetId,int $keyInArray): void
     {
+        $budget = Budget::query()
+            ->where('id', $budgetId)
+            ->first();
 
+        $budget->values = collect($budget->values)->forget($keyInArray)->toArray();
+
+        $budget->save();
     }
 
     #[On('finance-edited')]

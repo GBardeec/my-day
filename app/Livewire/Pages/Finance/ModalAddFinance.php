@@ -28,7 +28,7 @@ class ModalAddFinance extends Component
         $this->values = [
             [
                 'amount' => null,
-                'budget_category' => null,
+                'budget_category_id_id' => null,
             ]
         ];
     }
@@ -44,26 +44,26 @@ class ModalAddFinance extends Component
         return BudgetCategory::query()
             ->whereIn('user_id', [auth()->user()->id, BudgetCategory::DEFAULT_CATEGORIES_FROM_ADMIN_ID])
             ->where('type', $this->type)
-            ->pluck('name', 'name')
+            ->pluck('name', 'id')
             ->prepend('Выберите категорию', null);
     }
 
     public function add(): void
     {
-        $this->values[] = ['amount' => null, 'budget_category' => null];
+        $this->values[] = ['amount' => null, 'budget_category_id' => null];
     }
 
     public function create(): void
     {
-        if (in_array(null, array_column($this->values, 'amount')) || in_array(null, array_column($this->values, 'budget_category'))) {
+        if (in_array(null, array_column($this->values, 'amount')) || in_array(null, array_column($this->values, 'budget_category_id'))) {
             $this->js("alert('Ошибка. Не до конца заполнены данные')");
             return;
         }
 
         $this->values = array_map(function ($plan) {
             return [
-                'amount' => (int)$plan['amount'],
-                'budget_category' => $plan['budget_category']
+                'amount' => (int) $plan['amount'],
+                'budget_category_id' => (int) $plan['budget_category_id']
             ];
         }, $this->values);
 

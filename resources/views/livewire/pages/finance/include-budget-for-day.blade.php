@@ -11,13 +11,14 @@
                     @php
                         $z = 1;
                         $arrayForSumExpenses = [];
+                        $expenses = $this->getBudgetExpense();
                     @endphp
-                    @forelse($this->getBudgetExpense()->values ?? [] as $budget)
+                    @forelse($expenses->values ?? [] as $key => $budget)
                         <div class="d-flex justify-content-between border-bottom">
                             <span class="m-0">
                                 {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
                             </span>
-                            <span wire>
+                            <span wire:click="delete({{$expenses->id}}, {{$key}})">
                                 <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
                             </span>
                         </div>
@@ -57,13 +58,14 @@
                     @php
                         $z = 1;
                         $arrayForSumIncomes = [];
+                        $incomes = $this->getBudgetIncome();
                     @endphp
-                    @forelse($this->getBudgetIncome()->values ?? [] as $key => $budget)
+                    @forelse($incomes->values ?? [] as $key => $budget)
                         <div class="d-flex justify-content-between border-bottom">
                             <span class="m-0">
                                 {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
                             </span>
-                            <span>
+                            <span wire:click="delete({{$expenses->id}}, {{$key}})">
                                 <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
                             </span>
                         </div>
