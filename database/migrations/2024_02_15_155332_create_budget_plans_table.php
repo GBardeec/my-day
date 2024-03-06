@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->json('plans');
             $table->integer('type');
-            $table->timestamp('started_at');
-            $table->timestamp('ended_at');
+            $table->date('started_at');
+            $table->date('ended_at');
             $table->timestamps();
         });
     }

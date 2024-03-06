@@ -13,8 +13,8 @@ class BudgetPlan extends Model
 
     public $casts = [
         'plans' => 'json',
-        'started_at' => 'datetime',
-        'ended_at' => 'datetime',
+        'started_at' => 'date',
+        'ended_at' => 'date',
     ];
 
     const EXPENSE = 1;

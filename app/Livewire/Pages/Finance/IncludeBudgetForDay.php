@@ -84,10 +84,10 @@ class IncludeBudgetForDay extends Component
         $budget->save();
     }
 
-    #[On('finance-edited')]
-    public function financeEdited()
-    {
-        //
-    }
+//    #[On('finance-edited')]
+//    public function financeEdited()
+//    {
+//        //
+//    }
 
 }

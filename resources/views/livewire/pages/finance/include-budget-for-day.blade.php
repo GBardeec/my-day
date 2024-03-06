@@ -1,41 +1,57 @@
 <div class="row">
     <div class="col-lg-6 col-xs-12 col-md-6 col-sm-12">
-        <div class="card border-dark mb-3">
-            <div class="card-header bg-transparent border-dark">Расходы</div>
+        <div class="card border-dark mb-3 ">
+            <div class="card-header bg-transparent border-dark">
+                Расходы
+            </div>
             <div class="card-body text-dark">
                 <div class="d-flex justify-content-between">
-                    <h5 class="card-title">{{Carbon\Carbon::parse($dateForExpense)->format('d.m.Y')}}</h5>
-                    <input type="date" wire:model.live="dateForExpense">
+                    <h5 class="card-title">
+                            <input type="date" wire:model.live="dateForExpense">
+                    </h5>
                 </div>
                 <div class="card-text mt-1">
-                    @php
-                        $z = 1;
-                        $arrayForSumExpenses = [];
-                        $expenses = $this->getBudgetExpense();
-                    @endphp
-                    @forelse($expenses->values ?? [] as $key => $budget)
-                        <div class="d-flex justify-content-between border-bottom">
-                            <span class="m-0">
-                                {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
-                            </span>
-                            <span wire:click="delete({{$expenses->id}}, {{$key}})">
-                                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
-                            </span>
-                        </div>
-
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Категория</th>
+                            <th scope="col">Значение</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         @php
-                            $z++;
-                            $arrayForSumExpenses[] = $budget['amount'];
+                            $z = 1;
+                            $arrayForSumExpenses = [];
+                            $expenses = $this->getBudgetExpense();
                         @endphp
-                    @empty
-                        Данные отсутствуют
-                    @endforelse
+                        @forelse($expenses->values ?? [] as $key => $budget)
+                            <tr>
+                                <th scope="row">{{ $z }}</th>
+                                <td>{{ $budget['budget_category'] }}</td>
+                                <td>{{ $budget['amount'] }} руб</td>
+                                <td wire:click="delete({{ $expenses['id'] }}, {{ $key }})">
+                                    <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                                </td>
+                            </tr>
+                            @php
+                                $z++;
+                                $arrayForSumExpenses[] = $budget['amount'];
+                            @endphp
+                        @empty
+                            <tr>
+                                <td colspan="4">Данные отсутствуют</td>
+                            </tr>
+                        @endforelse
 
-                    @if($arrayForSumExpenses)
-                        <div class="mt-3">
-                            Итог: <strong> {{ array_sum($arrayForSumExpenses) }} </strong> руб.
-                        </div>
-                    @endif
+                        @if($arrayForSumExpenses)
+                            <tr>
+                                <td colspan="4">Итог: <strong> {{ array_sum($arrayForSumExpenses) }} </strong> руб.</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="card-footer bg-transparent border-dark">
@@ -51,37 +67,52 @@
             <div class="card-header bg-transparent border-dark">Доходы</div>
             <div class="card-body text-dark">
                 <div class="d-flex justify-content-between">
-                    <h5 class="card-title">{{Carbon\Carbon::parse($dateForIncome)->format('d.m.Y')}}</h5>
-                    <input type="date" wire:model.live="dateForIncome">
+                    <h5 class="card-title">
+                        <input type="date" wire:model.live="dateForIncome">
+                    </h5>
                 </div>
-                <div class="card-text">
-                    @php
-                        $z = 1;
+                <div class="card-text mt-1">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Категория</th>
+                            <th scope="col">Значение</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php
+                            $z = 1;
                         $arrayForSumIncomes = [];
                         $incomes = $this->getBudgetIncome();
-                    @endphp
-                    @forelse($incomes->values ?? [] as $key => $budget)
-                        <div class="d-flex justify-content-between border-bottom">
-                            <span class="m-0">
-                                {{$z . '. ' . $budget['budget_category'] . ' - ' . $budget['amount'] . ' руб.'}}
-                            </span>
-                            <span wire:click="delete({{$expenses->id}}, {{$key}})">
-                                <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
-                            </span>
-                        </div>
-                        @php
-                            $z++;
-                            $arrayForSumIncomes[] = $budget['amount'];
                         @endphp
-                    @empty
-                        Данные отсутствуют
-                    @endforelse
+                        @forelse($incomes->values ?? [] as $key => $budget)
+                            <tr>
+                                <th scope="row">{{ $z }}</th>
+                                <td>{{ $budget['budget_category'] }}</td>
+                                <td>{{ $budget['amount'] }} руб</td>
+                                <td wire:click="delete({{ $incomes['id'] }}, {{ $key }})">
+                                    <i class="fa-solid fa-trash" style="color: #ff0000;"></i>
+                                </td>
+                            </tr>
+                            @php
+                                $z++;
+                                $arrayForSumIncomes[] = $budget['amount'];
+                            @endphp
+                        @empty
+                            <tr>
+                                <td colspan="4">Данные отсутствуют</td>
+                            </tr>
+                        @endforelse
 
-                    @if($arrayForSumIncomes)
-                        <div class="mt-2">
-                            Итог: <strong> {{ array_sum($arrayForSumIncomes) }} </strong> руб.
-                        </div>
-                    @endif
+                        @if($arrayForSumIncomes)
+                            <tr>
+                                <td colspan="4">Итог: <strong> {{ array_sum($arrayForSumIncomes) }} </strong> руб.</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
             <div class="card-footer bg-transparent border-dark">
